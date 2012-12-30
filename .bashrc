@@ -86,6 +86,7 @@ alias mkdir='mkdir -p -v'
 alias du1='sudo du -h --max-depth=1'
 #alias openports='sudo netstat --all --numeric --programs --inet'
 alias openports='sudo lsof -Pn | grep LISTEN'
+alias diff='colordiff'
 
 # function to tweet specified message ($1)
 function tnotify { twidge dmsend mountainmanduke "$1 $(date +%l:%M%p)" ; }
