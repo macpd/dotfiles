@@ -1,7 +1,7 @@
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
-require("awful")
+awful.rules = require("awful.rules")
 require("awful.autofocus")
 -- Widget and layout library
 local wibox = require("wibox")
@@ -114,82 +114,82 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- {{{ Wibox
 -- Create a textclock widget
---mytextclock = awful.widget.textclock({ align = "right" }, "%h:%M ")
-mytextclock = awful.widget.textclock({ align = "right" }, "%a %b %d, %I:%M %P ")
+--mytextclock = awful.widget.textclock({ align = "right" }, "%a %b %d, %I:%M %P ")
+mytextclock = awful.widget.textclock()
 
 -- vicious widgets
-vicious = require("vicious")
+local vicious = require("vicious")
 
 -- Text Box widget
-mytextbox = widget({ type = "textbox" })
+mytextbox = wibox.widget.textbox()
 
 -- Seperator widget
-separator = widget({ type = "textbox" })
-separator.text  = " :: "
+separator = wibox.widget.textbox()
+separator:set_text(" :: ")
 
 -- Widget colors
 fmtstart =  '<span color="'..beautiful.fg_focus..'">'
 fmtend = '</span>'
 
 -- Battery Percent widget
---mybatterylabel = widget ({ type = "textbox" })
+--mybatterylabel = wibox.widget.textbox()
 --mybatterylabel.text = fmtstart..'BAT:'..fmtend
---mybatterystat = widget ({ type = "textbox" })
+--mybatterystat = wibox.widget.textbox()
 --mybatterystat.text = awful.util.pread("/home/macpd/bat-stat.py")
 --batterytimer = timer ({ timeout = 30 })
 --batterytimer:add_signal("timeout", function() mybatterystat.text = awful.util.pread("/home/macpd/bat-stat.py") end)
 --batterytimer:start()
 
 ---- Volume Percent widget
---myvollabel = widget ({ type ="textbox" })
+--myvollabel = wibox.widget.textbox()
 --myvollabel.text = fmtstart.."VOL:"..fmtend
---myvolstat = widget ({ type = "textbox" })
+--myvolstat = wibox.widget.textbox()
 --myvolstat.text = awful.util.pread("python /home/macpd/volume_status.py")
 --myvoltimer = timer ({ timeout = 30 })
 --myvoltimer:add_signal("timeout", function() myvolstat.text = awful.util.pread("/home/macpd/volume-stat.py") end)
 --myvoltimer:start()
 
 -- Root Filesystem widget
-fsicon = widget({ type = "imagebox" })
-fsicon.image = image(beautiful.widget_fs) 
-rootwidget = widget({ type = "textbox" })
+fsicon = wibox.widget.imagebox()
+fsicon:set_image(beautiful.widget_fs) 
+rootwidget = wibox.widget.textbox()
 vicious.register(rootwidget, vicious.widgets.fs, fmtstart..'ROOT:'..fmtend.."${/ used_p}% ")
 
 -- Home Filesystem widget
---fsicon = widget({ type = "imagebox" })
+--fsicon = wibox.widget.imagebox()
 --fsicon.image = image(beautiful.widget_fs) 
---homewidget = widget({ type = "textbox" })
+--homewidget = wibox.widget.textbox()
 --vicious.register(homewidget, vicious.widgets.fs, fmtstart..'HOME:'..fmtend.."${/ used_p}% ")
 
 -- CPU Usage widget     
-cpuicon = widget({ type = "imagebox" })
-cpuicon.image = image(beautiful.widget_cpu) 
-cpuwidget = widget({ type = "textbox" })
+cpuicon = wibox.widget.imagebox()
+cpuicon:set_image(beautiful.widget_cpu) 
+cpuwidget = wibox.widget.textbox()
 vicious.register(cpuwidget, vicious.widgets.cpu, fmtstart..'CPU:'..fmtend.."$1% ")
 
 
 -- RAM Usage widget
-memicon = widget({ type = "imagebox" })
-memicon.image = image(beautiful.widget_mem)                              
-memwidget = widget({ type = "textbox" })
+memicon = wibox.widget.imagebox()
+memicon:set_image(beautiful.widget_mem)                              
+memwidget =  wibox.widget.textbox()
 vicious.register(memwidget, vicious.widgets.mem, fmtstart..'RAM:'..fmtend.."$1% ", 10) 
 
 -- SWAP File widget
---swapwidget = widget({ type = "textbox" })
+--swapwidget = wibox.widget.textbox()
 --vicious.register(swapwidget, vicious.widgets.mem, fmtstart..'SWAP:'..fmtend..'$5% ', 10)
 
 -- Network Usage widget : Initialise and Register widget
-dnicon = widget({ type = "imagebox" })
-upicon = widget({ type = "imagebox" })
-dnicon.image = image(beautiful.widget_net)
-upicon.image = image(beautiful.widget_netup)
-netlabel = widget({ type = "textbox" })
-netlabel.text = fmtstart..' NET:'..fmtend
-netwidget = widget({ type = "textbox" })
+dnicon = wibox.widget.imagebox()
+upicon = wibox.widget.imagebox()
+dnicon:set_image(beautiful.widget_net)
+upicon:set_image(beautiful.widget_netup)
+netlabel = wibox.widget.textbox()
+netlabel:set_markup(fmtstart..' NET:'..fmtend)
+netwidget = wibox.widget.textbox()
 vicious.register(netwidget, vicious.widgets.net, '${eth0 down_kb} ${eth0 up_kb}', 2)
 
 -- Create a systray
-mysystray = widget({ type = "systray" })
+mysystray = wibox.widget.systray()
 
 -- Create a wibox for each screen and add it
 mywibox = {}
