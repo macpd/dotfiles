@@ -376,7 +376,7 @@ globalkeys = awful.util.table.join(
               end),
     -- custom key bindings
     -- lock screen with win+l
-    awful.key({ winkey,           }, "l", function () awful.util.spawn("gnome-screensaver-command --lock") end),
+    awful.key({ winkey,           }, "l", function () awful.util.spawn("xscreensaver-command --lock") end),
     --awful.key({ modkey }, "p", function() awful.util.spawn( "dmenu_run" ) end),
     -- dmenu like application menu builtin to awesome
     awful.key({ modkey }, "p", function() menubar.show() end),
