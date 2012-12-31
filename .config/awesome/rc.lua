@@ -189,7 +189,7 @@ netwidget = wibox.widget.textbox()
 vicious.register(netwidget, vicious.widgets.net, '${eth0 down_kb} ${eth0 up_kb}', 2)
 
 -- Create a systray
-mysystray = wibox.widget.systray()
+--mysystray = wibox.widget.systray()
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -260,32 +260,51 @@ for s = 1, screen.count() do
 
     -- Create the wibox
     mywibox[s] = awful.wibox({ position = "top", screen = s })
-    -- Add widgets to the wibox - order matters
-    mywibox[s].widgets = {
-        {
-            mylauncher,
-            mytaglist[s],
-            mypromptbox[s],
-            layout = awful.widget.layout.horizontal.leftright
-        },
-        mylayoutbox[s],
-        mytextclock,
-        s == 1 and mysystray or nil,
-        separator,
-        --myvolstat, myvollabel,
-        separator,
-        --mybatterystat, mybatterylabel,
-        separator,
-        upicon, netwidget,dnicon,netlabel,
-	separator,
-	rootwidget, fsicon,
-	separator,
-	memwidget, memicon,
-	separator,
-	cpuwidget, cpuicon,
-        mytasklist[s],
-        layout = awful.widget.layout.horizontal.rightleft
-    }
+
+    -- Widgets that are aligned to the left
+    local left_layout = wibox.layout.fixed.horizontal()
+    left_layout:add(mylauncher)
+    left_layout:add(mytaglist[s])
+    left_layout:add(mypromptbox[s])
+
+    -- Widgets that are aligned to the right
+    local right_layout = wibox.layout.fixed.horizontal()
+    if s == 1 then right_layout:add(wibox.widget.systray()) end
+
+    right_layout:add(cpuwidget)
+    right_layout:add(cpuicon)
+    right_layout:add(separator)
+
+    right_layout:add(memwidget)
+    right_layout:add(memicon)
+    right_layout:add(separator)
+
+	  right_layout:add(rootwidget)
+    right_layout:add(fsicon)
+    right_layout:add(separator)
+
+    --myvolstat, myvollabel,
+    --right_layout:add(separator)
+    --mybatterystat, mybatterylabel,
+    --right_layout:add(separator)
+
+    right_layout:add(netlabel)
+    right_layout:add(upicon)
+    right_layout:add(netwidget)
+    right_layout:add(dnicon)
+    right_layout:add(separator)
+
+    right_layout:add(mytextclock)
+
+    right_layout:add(mylayoutbox[s])
+
+    -- Now bring it all together (with the tasklist in the middle)
+    local layout = wibox.layout.align.horizontal()
+    layout:set_left(left_layout)
+    layout:set_middle(mytasklist[s])
+    layout:set_right(right_layout)
+
+    mywibox[s]:set_widget(layout)
 end
 -- }}}
 
