@@ -96,6 +96,9 @@ alias rootprocs='ps u -U root -u root'
 alias raid='cd /media/raid'
 export PATH="${PATH}:${HOME}/gsutil"
 
+# print pretty system info
+/usr/bin/archey
+
 # echo arguments, ask for confirmation to excute them
 function echoConfirmExecute
 {
