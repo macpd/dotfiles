@@ -8,5 +8,6 @@ vbell on
 screen -t mdadm watch -n 300 --differences=cumulatve cat /proc/mdstat
 screen -t ncmpc ncmpc
 screen -t vnstat vnstat -l
+screen -t journalctl journalctl -xbf
 screen -t htop htop
 screen
