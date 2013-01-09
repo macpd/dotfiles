@@ -77,11 +77,14 @@ alias ll='ls -alFh'
 alias la='ls -A'
 alias l='ls -CFh'
 
+# preserve aliases when using sudo
+alias sudo='sudo '
 alias software='cd /media/data/shared/Software'
 alias music='cd /media/data/shared/Music'
 export EDITOR="/usr/bin/vim"
 alias vi="${EDITOR}"
 alias mkdir='mkdir -p -v'
+alias pgrep='ps uax | grep '
 # lists human-readable size of all directories in current dir
 alias du1='sudo du -h --max-depth=1'
 #alias openports='sudo netstat --all --numeric --programs --inet'
