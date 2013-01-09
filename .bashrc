@@ -54,7 +54,7 @@ unset color_prompt force_color_prompt
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    PS1="\[\e]0;\u@\h: \w\a\]$PS1"
     ;;
 *)
     ;;
@@ -79,10 +79,12 @@ alias l='ls -CFh'
 
 # preserve aliases when using sudo
 alias sudo='sudo '
+alias raid='cd /media/raid'
 alias software='cd /media/data/shared/Software'
 alias music='cd /media/data/shared/Music'
 export EDITOR="/usr/bin/vim"
 alias vi="${EDITOR}"
+# create necessary parent dirs and let me know
 alias mkdir='mkdir -p -v'
 alias pgrep='ps uax | grep '
 # lists human-readable size of all directories in current dir
@@ -91,16 +93,16 @@ alias du1='sudo du -h --max-depth=1'
 alias openports='sudo lsof -Pn | grep LISTEN'
 alias diff='colordiff'
 
-# function to tweet specified message ($1)
-function tnotify { twidge dmsend mountainmanduke "$1 $(date +%l:%M%p)" ; }
 alias ping='ping -c 4'
 #display all processes running as root, effective UID and GID
 alias rootprocs='ps u -U root -u root'
-alias raid='cd /media/raid'
+# add google cloud storage util to path
 export PATH="${PATH}:${HOME}/gsutil"
 
 # print pretty system info
-/usr/bin/archey
+if [ -f /usr/bin/archey] ; then
+  /usr/bin/archey
+fi
 
 # echo arguments, ask for confirmation to excute them
 function echoConfirmExecute
