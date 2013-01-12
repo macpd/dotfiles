@@ -100,7 +100,7 @@ alias rootprocs='ps u -U root -u root'
 export PATH="${PATH}:${HOME}/gsutil"
 
 # print pretty system info
-if [ -f /usr/bin/archey] ; then
+if [ -f /usr/bin/archey ] ; then
   /usr/bin/archey
 fi
 
