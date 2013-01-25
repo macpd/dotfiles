@@ -115,7 +115,7 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- {{{ Wibox
 -- Create a textclock widget
 --mytextclock = awful.widget.textclock({ align = "right" }, "%a %b %d, %I:%M %P ")
-mytextclock = awful.widget.textclock()
+mytextclock = awful.widget.textclock("%a %b %d, %I:%M %p ")
 
 -- vicious widgets
 local vicious = require("vicious")
@@ -380,7 +380,10 @@ globalkeys = awful.util.table.join(
     --awful.key({ modkey }, "p", function() awful.util.spawn( "dmenu_run" ) end),
     -- dmenu like application menu builtin to awesome
     awful.key({ modkey }, "p", function() menubar.show() end),
-    awful.key({ modkey, "Control" }, "e", function () awful.util.spawn("fetchotp -x") end)
+    -- Multimedia keys
+    awful.key({ }, "XF86AudioRaiseVolume",    function () awful.util.spawn("amixer set Master 2+") end),
+    awful.key({ }, "XF86AudioLowerVolume",    function () awful.util.spawn("amixer set Master 2-") end),
+    awful.key({ }, "XF86AudioMute",           function () awful.util.spawn("amixer set Master toggle") end)
 )
 
 clientkeys = awful.util.table.join(
