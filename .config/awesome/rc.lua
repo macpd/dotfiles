@@ -87,7 +87,7 @@ end
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ "Web", "Term", "A/V", "Misc", "Background" }, s, layouts[1])
+    tags[s] = awful.tag({ "Web", "Remote", "Local", "Misc", "Background" }, s, layouts[1])
 end
 -- }}}
 
@@ -125,29 +125,29 @@ mytextbox = wibox.widget.textbox()
 
 -- Seperator widget
 separator = wibox.widget.textbox()
-separator:set_text(" :: ")
+separator:set_text(":: ")
 
 -- Widget colors
 fmtstart =  '<span color="'..beautiful.fg_focus..'">'
-fmtend = '</span>'
+fmtend = '</span> '
 
 -- Battery Percent widget
---mybatterylabel = wibox.widget.textbox()
---mybatterylabel.text = fmtstart..'BAT:'..fmtend
---mybatterystat = wibox.widget.textbox()
---mybatterystat.text = awful.util.pread("/home/macpd/bat-stat.py")
---batterytimer = timer ({ timeout = 30 })
---batterytimer:add_signal("timeout", function() mybatterystat.text = awful.util.pread("/home/macpd/bat-stat.py") end)
---batterytimer:start()
+mybatterylabel = wibox.widget.textbox()
+mybatterylabel:set_markup(fmtstart..'BAT:'..fmtend)
+mybatterystat = wibox.widget.textbox()
+--mybatterystat:set_text(awful.util.pread("python2 /home/macpd/bat_stat.py"))
+batterytimer = timer ({ timeout = 30 })
+batterytimer:connect_signal("timeout", function() mybatterystat:set_text(awful.util.pread("python2 /home/macpd/battery_status.py")) end)
+batterytimer:start()
 
 ---- Volume Percent widget
---myvollabel = wibox.widget.textbox()
---myvollabel.text = fmtstart.."VOL:"..fmtend
---myvolstat = wibox.widget.textbox()
---myvolstat.text = awful.util.pread("python /home/macpd/volume_status.py")
---myvoltimer = timer ({ timeout = 30 })
---myvoltimer:add_signal("timeout", function() myvolstat.text = awful.util.pread("/home/macpd/volume-stat.py") end)
---myvoltimer:start()
+myvollabel = wibox.widget.textbox()
+myvollabel:set_markup(fmtstart.."VOL:"..fmtend)
+myvolstat = wibox.widget.textbox()
+--myvolstat:set_text(awful.util.pread("python2 /home/macpd/volume_status.py"))
+myvoltimer = timer ({ timeout = 5 })
+myvoltimer:connect_signal("timeout", function() myvolstat:set_text(awful.util.pread("python2 /home/macpd/volume_status.py")) end)
+myvoltimer:start()
 
 -- Root Filesystem widget
 fsicon = wibox.widget.imagebox()
@@ -186,7 +186,7 @@ upicon:set_image(beautiful.widget_netup)
 netlabel = wibox.widget.textbox()
 netlabel:set_markup(fmtstart..' NET:'..fmtend)
 netwidget = wibox.widget.textbox()
-vicious.register(netwidget, vicious.widgets.net, '${eth0 down_kb} ${eth0 up_kb}', 2)
+vicious.register(netwidget, vicious.widgets.net, '${wlan0 down_kb} ${wlan0 up_kb}', 2)
 
 -- Create a systray
 --mysystray = wibox.widget.systray()
@@ -283,10 +283,13 @@ for s = 1, screen.count() do
     right_layout:add(fsicon)
     right_layout:add(separator)
 
-    --myvolstat, myvollabel,
-    --right_layout:add(separator)
-    --mybatterystat, mybatterylabel,
-    --right_layout:add(separator)
+    right_layout:add(myvollabel)
+    right_layout:add(myvolstat)
+    right_layout:add(separator)
+
+    right_layout:add(mybatterylabel)
+    right_layout:add(mybatterystat)
+    right_layout:add(separator)
 
     right_layout:add(netlabel)
     right_layout:add(upicon)
@@ -376,7 +379,7 @@ globalkeys = awful.util.table.join(
               end),
     -- custom key bindings
     -- lock screen with win+l
-    awful.key({ winkey,           }, "l", function () awful.util.spawn("xscreensaver-command --lock") end),
+    awful.key({ winkey,           }, "l", function () awful.util.spawn("gnome-screensaver-command --lock") end),
     --awful.key({ modkey }, "p", function() awful.util.spawn( "dmenu_run" ) end),
     -- dmenu like application menu builtin to awesome
     awful.key({ modkey }, "p", function() menubar.show() end),
@@ -565,8 +568,9 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- applications and commands to execute at startup
 -- awful.util.spawn_with_shell("xscreensaver -nosplash")
 awful.util.spawn_with_shell("xrdb -merge .Xresources")
---awful.util.spawn_with_shell("killall nm-applet ; nm-applet")
---awful.util.spawn("xautolock -time 5 -locker 'gnome-screensaver-command --lock'")
+awful.util.spawn_with_shell("killall nm-applet ; nm-applet --sm-disable")
+awful.util.spawn("xautolock -time 5 -locker 'gnome-screensaver-command --lock'")
+awful.util.spawn("xset dpms 0 0 300")
 --awful.util.spawn("gnome-settings-daemon")
 --awful.util.spawn("gnome-power-manager")
 --awful.util.spawn("gnome-volume-manager")
@@ -575,4 +579,4 @@ awful.util.spawn_with_shell("xrdb -merge .Xresources")
 --awful.util.spawn_with_shell("sleep 5 && feh --bg-center papes/wallpaper-HAL.png")
 --awful.util.spawn("urxvt -title \"Roku Shell\" -e \"bash ssh roku.i\"")
 --awful.util.spawn_with_shell("gnome-keybinding-properties")
-awful.util.spawn("feh --bg-fill papes/wallpaper-1274481.png")
+--awful.util.spawn("feh --bg-fill papes/wallpaper-1274481.png")
