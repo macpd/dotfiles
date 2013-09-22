@@ -2,12 +2,29 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
-set number " Show line numbers
+" Vundle settings
+filetype off
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+" required!
+Bundle 'gmarik/vundle'
+" plugin to comment all kinds of filetypes
+Bundle 'scrooloose/nerdcommenter'
+
+filetype plugin indent on     " required by Vundle, now back to our regularly scheduled configuration
+
+"set number " Show line numbers
+set relativenumber " show relative number lines
 set history=50 " keep 50 lines of command line history
 set ruler " show the cursor position all the time
 set showcmd " display incomplete commands
 set incsearch " do incremental searching
 set laststatus=2 "Always show status line
+
+let mapleader=","
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -29,10 +46,13 @@ if has("autocmd")
   augroup vimrcEx
   au!
 
-  " For all text files set 'textwidth' to 78 characters.
+  " For all text files set 'textwidth' to 80 characters.
   autocmd FileType text setlocal textwidth=80
-  " Set all python files to 80 charactrs.
+  " Set all python and cpp files to 80 charactrs.
   autocmd FileType python setlocal textwidth=80 sw=2 ts=2 ai et
+  autocmd FileType cpp setlocal textwidth=80 sw=2 ts=2 ai et
+  autocmd BufEnter,WinEnter * setlocal relativenumber
+  autocmd BufLeave,WinLeave * setlocal number
 
   " When editing a file, always jump to the last known cursor position.
   " Don't do it when the position is invalid or when inside an event handler
@@ -54,12 +74,17 @@ endif " has("autocmd")
 
 colorscheme peachpuff
 
-" insert a # at the beginning of current line
-function! CommentOutCurrentLine()
-  s/^\(\s*[^#]\S\{-}\)/#\1/
-endfunction
+" toggle relative line numbers
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set number
+  else
+    set relativenumber
+  endif
+endfunc
 
-nnoremap ,c :call CommentOutCurrentLine()<Cr>
+" add/remove leading space when commenting/uncommenting lines
+let g:NERDSpaceDelims=1
 
 " copied from /usr/share/vim/vim73/vimrc_example.vim provided with arch vim package
 " Convenient command to see the difference between the current buffer and the
