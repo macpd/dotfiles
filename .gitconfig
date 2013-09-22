@@ -13,3 +13,5 @@
   bare=false
   logallrefupdates=true
   autocrlf=false
+[push]
+	default = simple
