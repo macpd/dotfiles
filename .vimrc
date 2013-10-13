@@ -11,8 +11,16 @@ call vundle#rc()
 " let Vundle manage Vundle
 " required!
 Bundle 'gmarik/vundle'
+" misc vim functions from xolox. needed for vim-session
+Bundle 'https://github.com/xolox/vim-misc.git'
+" Improved session management
+Bundle 'xolox/vim-session'
 " plugin to comment all kinds of filetypes
 Bundle 'scrooloose/nerdcommenter'
+" Syntastic for syntax checking
+Bundle 'scrooloose/syntastic'
+" git vim integration
+Bundle 'tpope/vim-fugitive'
 
 filetype plugin indent on     " required by Vundle, now back to our regularly scheduled configuration
 
@@ -51,6 +59,7 @@ if has("autocmd")
   " Set all python and cpp files to 80 charactrs.
   autocmd FileType python setlocal textwidth=80 sw=2 ts=2 ai et
   autocmd FileType cpp setlocal textwidth=80 sw=2 ts=2 ai et
+  autocmd FileType markdown setlocal textwidth=80 sw=4 ts=4 ai et
   autocmd BufEnter,WinEnter * setlocal relativenumber
   autocmd BufLeave,WinLeave * setlocal number
 
@@ -85,6 +94,15 @@ endfunc
 
 " add/remove leading space when commenting/uncommenting lines
 let g:NERDSpaceDelims=1
+
+" auto save session
+let g:session_autosave = 'yes'
+
+" tell syntastic to always populate location list with
+let g:syntastic_always_populate_loc_list=1
+
+" python syntax checker
+" let g:syntastic_python_checker=['pylint']
 
 " copied from /usr/share/vim/vim73/vimrc_example.vim provided with arch vim package
 " Convenient command to see the difference between the current buffer and the
