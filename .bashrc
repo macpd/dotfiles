@@ -104,7 +104,7 @@ alias la='ls -A'
 alias l='ls -CFh'
 
 # preserve aliases when using sudo
-alias sudo='sudo '
+#alias sudo='sudo '
 alias raid='cd /media/raid'
 alias software='cd /media/data/shared/Software'
 alias music='cd /media/data/shared/Music'
@@ -112,7 +112,7 @@ export EDITOR="/usr/bin/vim"
 alias vi="${EDITOR}"
 # create necessary parent dirs and let me know
 alias mkdir='mkdir -p -v'
-alias pgrep='ps uax | grep '
+function pgrep { ps uaxf | grep -v grep | grep "$@" -i  --color=auto ; }
 # lists human-readable size of all directories in current dir
 alias du1='sudo du -h --max-depth=1'
 #alias openports='sudo netstat --all --numeric --programs --inet'
