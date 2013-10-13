@@ -157,8 +157,8 @@ if [ "${TERM}" != "screen" ] ; then
   screen -ls
 fi
 
-if [[ -z $SSH_AUTH_SOCK ]] ; then
-  ssh-agent
+if [[ -z $SSH_AUTH_SOCK || ! -e $SSH_AUTH_SOCK ]] ; then
+  eval $(ssh-agent)
 fi
 
 # add gsutil to path
