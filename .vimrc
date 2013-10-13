@@ -90,7 +90,7 @@ function! NumberToggle()
   else
     set relativenumber
   endif
-endfunc
+endfunction
 
 " add/remove leading space when commenting/uncommenting lines
 let g:NERDSpaceDelims=1
