@@ -138,33 +138,28 @@ else
     cat ~/aperture-logo
     echo -e ${txtrst}
   fi
-fi 
-# echo arguments, ask for confirmation to excute them
-function echoConfirmExecute
-{
-	if [[ $# -eq '0' ]] ; then
-		return 1
-	fi
+fi
 
-	# echo arguments and print prompt
-	echo -n "$@ [Y|n]: "
-#	local confirm="y"
-	read confirm
-	case "$confirm" in
-		y|Y|"")
-			$@
-			;;
-		*)
-			echo "Aborted"
-			return 2
-			;;
-	esac
-	return $?
+# fucntion to reattch to screen, use session name if given
+function reattach {
+if [[ $# -ge 1 ]] ; then
+  local SCREEN_SESSION_ARGS="-S $1"
+fi
+
+screen -rd $SCREEN_SESSION_ARGS
 }
-# offer to reconnect screen on ssh session
-#if [ "$SSH_CLIENT" ] && [ "$TERM" != "screen" ] ; then
-#	echoConfirmExecute "screen -r"
-#fi
-#if [ -f tux.txt ] ; then
-#	cat tux.txt
-#fi
+
+if [ -x .welcome_art ] ; then
+  ./.welcome_art
+fi
+# see available screen sessions if not already in a screen session
+if [ "${TERM}" != "screen" ] ; then
+  screen -ls
+fi
+
+if [[ -z $SSH_AUTH_SOCK ]] ; then
+  ssh-agent
+fi
+
+# add gsutil to path
+export PATH=${PATH}:${HOME}/gsutil
