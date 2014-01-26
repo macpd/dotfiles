@@ -86,12 +86,11 @@ export EDITOR="/usr/bin/vim"
 alias vi="${EDITOR}"
 # create necessary parent dirs and let me know
 alias mkdir='mkdir -p -v'
-alias pgrep='ps uax | grep '
+function pgrep { ps uaxf | grep -v grep | grep "$@" -i  --color=auto ; }
 # lists human-readable size of all directories in current dir
 alias du1='sudo du -h --max-depth=1'
 #alias openports='sudo netstat --all --numeric --programs --inet'
 alias openports='sudo lsof -Pn | grep LISTEN'
-alias diff='colordiff'
 
 alias ping='ping -c 4'
 #display all processes running as root, effective UID and GID
