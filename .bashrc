@@ -96,7 +96,18 @@ alias ping='ping -c 4'
 #display all processes running as root, effective UID and GID
 alias rootprocs='ps u -U root -u root'
 # add google cloud storage util to path
-export PATH="${PATH}:${HOME}/gsutil"
+# export PATH="${PATH}:${HOME}/gsutil"
+# 'sudoedit filename' or 'sudo -e filename' will edit filename with rvim, disabling shell commands from within the text editor.
+# taken from https://wiki.archlinux.org/index.php/Security#Editing_files_using_sudo
+export SUDO_EDITOR==rvim
+
+export LESS_TERMCAP_mb=$'\E[01;31m' \
+LESS_TERMCAP_md=$'\E[01;38;5;74m' \
+LESS_TERMCAP_me=$'\E[0m' \
+LESS_TERMCAP_se=$'\E[0m' \
+LESS_TERMCAP_so=$'\E[38;5;246m' \
+LESS_TERMCAP_ue=$'\E[0m' \
+LESS_TERMCAP_us=$'\E[04;38;5;146m'
 
 # print pretty system info
 if [ -f /usr/bin/archey ] ; then
