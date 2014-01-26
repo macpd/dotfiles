@@ -23,43 +23,6 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color) color_prompt=yes;;
-esac
-
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
-fi
-
-if [ "$color_prompt" = yes ]; then
-    PS1='\[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\w\[\033[00m\] [$?] \$ '
-else
-    PS1='\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -112,34 +75,104 @@ LESS_TERMCAP_us=$'\E[04;38;5;146m'
 # print pretty system info
 if [ -f /usr/bin/archey ] ; then
   /usr/bin/archey
+else
+  if [ -f ~/aperture-logo ] ; then
+    echo -e ${txtcyn}
+    cat ~/aperture-logo
+    echo -e ${txtrst}
+  fi
 fi
 
-# echo arguments, ask for confirmation to excute them
-function echoConfirmExecute
-{
-	if [[ $# -eq '0' ]] ; then
-		return 1
-	fi
+# fucntion to reattch to screen, use session name if given
+function reattach {
+if [[ $# -ge 1 ]] ; then
+  local SCREEN_SESSION_ARGS="-S $1"
+fi
 
-	# echo arguments and print prompt
-	echo -n "$@ [Y|n]: "
-#	local confirm="y"
-	read confirm
-	case "$confirm" in
-		y|Y|"")
-			$@
-			;;
-		*)
-			echo "Aborted"
-			return 2
-			;;
-	esac
-	return $?
+screen -rd $SCREEN_SESSION_ARGS
 }
-# offer to reconnect screen on ssh session
-#if [ "$SSH_CLIENT" ] && [ "$TERM" != "screen" ] ; then
-#	echoConfirmExecute "screen -r"
-#fi
-#if [ -f tux.txt ] ; then
-#	cat tux.txt
-#fi
+
+# prints current branch. for use in PS1
+function parse_git_branch () {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+colors() {
+  local fgc bgc vals seq0
+
+  printf "Color escapes are %s\n" '\e[${value};...;${value}m'
+  printf "Values 30..37 are \e[33mforeground colors\e[m\n"
+  printf "Values 40..47 are \e[43mbackground colors\e[m\n"
+  printf "Value  1 gives a  \e[1mbold-faced look\e[m\n\n"
+
+  # foreground colors
+  for fgc in {30..37}; do
+    # background colors
+    for bgc in {40..47}; do
+      fgc=${fgc#37} # white
+      bgc=${bgc#40} # black
+
+      vals="${fgc:+$fgc;}${bgc}"
+      vals=${vals%%;}
+
+      seq0="${vals:+\e[${vals}m}"
+      printf "  %-9s" "${seq0:-(default)}"
+      printf " ${seq0}TEXT\e[m"
+      printf " \e[${vals:+${vals+$vals;}}1mBOLD\e[m"
+    done
+    echo; echo
+  done
+}
+
+if [ -x .welcome_art ] ; then
+  ./.welcome_art
+fi
+# see available screen sessions if not already in a screen session
+if [ "${TERM}" != "screen" ] ; then
+  screen -ls
+fi
+
+# if [[ -z $SSH_AUTH_SOCK || ! -e $SSH_AUTH_SOCK ]] ; then
+  # eval $(ssh-agent)
+# fi
+
+# The next line updates PATH for the Google Cloud SDK.
+export PATH=$PATH:/home/macpd/google-cloud-sdk/bin
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color) color_prompt=yes;;
+esac
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+  # We have color support; assume it's compliant with Ecma-48
+  # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+  # a case would tend to support setf rather than setaf.)
+  color_prompt=yes
+    else
+  color_prompt=
+    fi
+fi
+
+if [ "$color_prompt" = yes ]; then
+  PS1="\[\e[01;34m\]\u@\h\[\e[00m\]:\[\e[01;33m\]\w \e[00;33m\]\t \[\e[00m\][\$(ret=\$?; if [[ \$ret == 0 ]] ; then echo -n \"\[\e[37m\]\"; else echo -n \"\[\e[1;31m\]\"; fi; echo -n \$ret)\[\e[00m\]] \$ "
+else
+    PS1='\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+#case "$TERM" in
+#xterm*|rxvt*)
+#    PS1="\[\e]0;\u@\h: \w\a\]$PS1"
+#    ;;
+#*)
+#    ;;
+#esac
+
