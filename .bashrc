@@ -74,11 +74,11 @@ fi
 
 # some more ls aliases
 alias ll='ls -alFh'
-alias la='ls -A'
+alias la='ls -la'
 alias l='ls -CFh'
 
 # preserve aliases when using sudo
-alias sudo='sudo '
+#alias sudo='sudo '
 alias raid='cd /media/raid'
 alias software='cd /media/data/shared/Software'
 alias music='cd /media/data/shared/Music'
