@@ -115,7 +115,7 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- {{{ Wibox
 -- Create a textclock widget
 --mytextclock = awful.widget.textclock({ align = "right" }, "%a %b %d, %I:%M %P ")
-mytextclock = awful.widget.textclock()
+mytextclock = awful.widget.textclock("%a %b %d, %I:%M %p ")
 
 -- vicious widgets
 local vicious = require("vicious")
@@ -141,13 +141,13 @@ fmtend = '</span>'
 --batterytimer:start()
 
 ---- Volume Percent widget
---myvollabel = wibox.widget.textbox()
---myvollabel.text = fmtstart.."VOL:"..fmtend
---myvolstat = wibox.widget.textbox()
---myvolstat.text = awful.util.pread("python /home/macpd/volume_status.py")
---myvoltimer = timer ({ timeout = 30 })
---myvoltimer:add_signal("timeout", function() myvolstat.text = awful.util.pread("/home/macpd/volume-stat.py") end)
---myvoltimer:start()
+myvollabel = wibox.widget.textbox()
+myvollabel.text = fmtstart.."VOL:"..fmtend
+myvolstat = wibox.widget.textbox()
+myvolstat.text = awful.util.pread("python /home/macpd/volume_status.py")
+myvoltimer = timer ({ timeout = 30 })
+myvoltimer:add_signal("timeout", function() myvolstat.text = awful.util.pread("/home/macpd/volume-stat.py") end)
+myvoltimer:start()
 
 -- Root Filesystem widget
 fsicon = wibox.widget.imagebox()
@@ -186,7 +186,7 @@ upicon:set_image(beautiful.widget_netup)
 netlabel = wibox.widget.textbox()
 netlabel:set_markup(fmtstart..' NET:'..fmtend)
 netwidget = wibox.widget.textbox()
-vicious.register(netwidget, vicious.widgets.net, '${eth0 down_kb} ${eth0 up_kb}', 2)
+vicious.register(netwidget, vicious.widgets.net, '${enp10s0 down_kb} ${enp10s0 up_kb}', 2)
 
 -- Create a systray
 --mysystray = wibox.widget.systray()
@@ -380,7 +380,9 @@ globalkeys = awful.util.table.join(
     --awful.key({ modkey }, "p", function() awful.util.spawn( "dmenu_run" ) end),
     -- dmenu like application menu builtin to awesome
     awful.key({ modkey }, "p", function() menubar.show() end),
-    awful.key({ modkey, "Control" }, "e", function () awful.util.spawn("fetchotp -x") end)
+    awful.key({ }, "XF86AudioRaiseVolume",    function () awful.util.spawn("amixer set Master 2+") end),
+    awful.key({ }, "XF86AudioLowerVolume",    function () awful.util.spawn("amixer set Master 2-") end),
+    awful.key({ }, "XF86AudioMute",           function () awful.util.spawn("amixer set Master toggle") end)
 )
 
 clientkeys = awful.util.table.join(
@@ -562,6 +564,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- applications and commands to execute at startup
 -- awful.util.spawn_with_shell("xscreensaver -nosplash")
 awful.util.spawn_with_shell("xrdb -merge .Xresources")
+awful.util.spawn_with_shell("xset s off ; xset dpms 0 0 7200")
 --awful.util.spawn_with_shell("killall nm-applet ; nm-applet")
 --awful.util.spawn("xautolock -time 5 -locker 'gnome-screensaver-command --lock'")
 --awful.util.spawn("gnome-settings-daemon")
