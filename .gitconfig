@@ -1,6 +1,6 @@
 [user]
-	name = Paul Duke
-  email=paul@morethanmiltoncan.com
+  name = Paul Duke
+  email=mountainmanduke@gmail.com
 
 [color]
   ui=auto
@@ -13,3 +13,7 @@
   bare=false
   logallrefupdates=true
   autocrlf=false
+[push]
+	default = simple
+[credential]
+	helper = cache
