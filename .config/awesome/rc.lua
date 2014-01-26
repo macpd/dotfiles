@@ -380,6 +380,7 @@ globalkeys = awful.util.table.join(
     --awful.key({ modkey }, "p", function() awful.util.spawn( "dmenu_run" ) end),
     -- dmenu like application menu builtin to awesome
     awful.key({ modkey }, "p", function() menubar.show() end),
+    -- Multimedia keys
     awful.key({ }, "XF86AudioRaiseVolume",    function () awful.util.spawn("amixer set Master 2+") end),
     awful.key({ }, "XF86AudioLowerVolume",    function () awful.util.spawn("amixer set Master 2-") end),
     awful.key({ }, "XF86AudioMute",           function () awful.util.spawn("amixer set Master toggle") end)

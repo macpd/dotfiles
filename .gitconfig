@@ -13,7 +13,9 @@
   bare=false
   logallrefupdates=true
   autocrlf=false
+
 [push]
-	default = simple
+  default = simple
+
 [credential]
-	helper = cache
+  helper = cache
