@@ -1,13 +1,11 @@
 autodetach on
+startup_message off
+vbell on
 hardstatus alwayslastline
 hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]'
 
-vbell on
-
-#screen -t logs bash -c "cd /var/log && tail -f syslog"
-screen -t mdadm watch -n 300 --differences=cumulatve cat /proc/mdstat
-screen -t ncmpc ncmpc
-screen -t vnstat vnstat -l
-screen -t journalctl journalctl -xbf
+screen -t mdadm watch -n 60 --differences=cumulatve cat /proc/mdstat
+#screen -t ncmpc ncmpc
+screen -t journalctl journalctl -b -f
 screen -t htop htop
 screen
