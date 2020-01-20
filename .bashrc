@@ -3,7 +3,10 @@
 # for examples
 
 # If not running interactively, don't do anything
-[ -z "$PS1" ] && return
+case $- in
+    *i*) ;;
+      *) return;;
+esac
 
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
@@ -13,8 +16,8 @@ HISTCONTROL=ignoredups:ignorespace
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=10000
+HISTFILESIZE=20000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -217,3 +220,10 @@ unset color_prompt force_color_prompt
 #    ;;
 #esac
 
+export EDITOR="/usr/bin/vim"
+export SUDO_EDITOR==rvim
+
+function battery {
+  cat /sys/class/power_supply/BAT0/capacity | tr '\n' ' '
+  cat /sys/class/power_supply/BAT0/status
+}
