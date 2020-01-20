@@ -5,26 +5,30 @@ set nocompatible
 " Vundle settings
 filetype off
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
 " let Vundle manage Vundle
 " required!
-Bundle 'gmarik/vundle'
+Plugin 'VundleVim/Vundle.vim'
 " misc vim functions from xolox. needed for vim-session
-Bundle 'https://github.com/xolox/vim-misc.git'
+" Bundle 'https://github.com/xolox/vim-misc.git'
 " Improved session management
-Bundle 'xolox/vim-session'
+" Bundle 'xolox/vim-session'
 " plugin to comment all kinds of filetypes
-Bundle 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdcommenter'
 " Syntastic for syntax checking
-Bundle 'scrooloose/syntastic'
+Plugin 'scrooloose/syntastic'
 " git vim integration
-Bundle 'tpope/vim-fugitive'
+" Bundle 'tpope/vim-fugitive'
 " supertab naive, but helpful tab completion
-Bundle 'ervandew/supertab'
+" Bundle 'ervandew/supertab'
 
-filetype plugin indent on     " required by Vundle, now back to our regularly scheduled configuration
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
 
 "set number " Show line numbers
 set relativenumber " show relative number lines
