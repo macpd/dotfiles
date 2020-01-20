@@ -1,22 +1,24 @@
 *visualBell: True
-URxvt*background:  #000000
-URxvt*foreground:  #9f9f9f
-URxvt*cursorBlink: True
-URxvt*scrollBar: False
-URxvt*urgentOnBell: True
-!URxvt*fading: 20
-!URxvt*fadeColor: Blue
-URxvt*transparent: False
-URxvt*shading: 70
-!URxvt*fadeColor: AntiqueWhite
-!URxvt*iconFile: /home/macpd/Aperture_Science.svg
+UXTerm*background:  #000000
+UXTerm*foreground:  #cfcfcf
+UXTerm*cursorBlink: True
+UXTerm*scrollBar: False
+UXTerm*urgentOnBell: True
+UXTerm*faceName: Monospace
+UXTerm*faceSize: 12
+!UXTerm*fading: 20
+!UXTerm*fadeColor: Blue
+UXTerm*transparent: False
+UXTerm*shading: 70
+!UXTerm*fadeColor: AntiqueWhite
+!UXTerm*iconFile: /home/macpd/Aperture_Science.svg
 !XTerm*color0:      #000000
 !XTerm*color1:      #9e1828
 !XTerm*color2:      #aece92
 !XTerm*color3:      #968a38
 !XTerm*color4:      #414171
 ! Make blue dir color from ls --color=auto more readable on black
-URxvt*color4: RoyalBlue
+UXTerm*color4: RoyalBlue
 !XTerm*color5:      #963c59
 !XTerm*color6:      #418179
 !XTerm*color7:      #bebebe
@@ -26,7 +28,7 @@ URxvt*color4: RoyalBlue
 !XTerm*color11:     #fff796
 !XTerm*color12:     #4186be
 ! Make blue dir color from ls --color=auto more readable on black
-URxvt*color12: RoyalBlue
+UXTerm*color12: RoyalBlue
 !XTerm*color13:     #cf9ebe
 !XTerm*color14:     #71bebe
 !XTerm*color15:     #ffffff
