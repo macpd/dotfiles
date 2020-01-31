@@ -22,7 +22,9 @@ Plugin 'scrooloose/syntastic'
 " git vim integration
 " Bundle 'tpope/vim-fugitive'
 " supertab naive, but helpful tab completion
-" Bundle 'ervandew/supertab'
+" Plugin 'ervandew/supertab'
+" YouCompleteMe auto completion system
+Plugin 'ycm-core/YouCompleteMe'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -30,7 +32,7 @@ filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 
-"set number " Show line numbers
+set number " Show line numbers
 set relativenumber " show relative number lines
 set history=50 " keep 50 lines of command line history
 set ruler " show the cursor position all the time
@@ -50,46 +52,32 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 
-" Only do this part when compiled with support for autocommands.
-if has("autocmd")
+" Put these in an autocmd group, so that we can delete them easily.
+augroup vimrcEx
+au!
 
-  " Enable file type detection.
-  " Use the default filetype settings, so that mail gets 'tw' set to 72,
-  " 'cindent' is on in C files, etc.
-  " Also load indent files, to automatically do language-dependent indenting.
-  filetype plugin indent on
+" For all text files set 'textwidth' to 80 characters.
+autocmd FileType text setlocal textwidth=80
+" Set all python and cpp files to 80 charactrs.
+autocmd FileType python setlocal textwidth=80 sw=2 ts=2 ai et
+autocmd FileType c setlocal textwidth=80 sw=2 ts=2 ai et
+autocmd FileType cpp setlocal textwidth=80 sw=2 ts=2 ai et
+autocmd FileType markdown setlocal textwidth=80 sw=4 ts=4 ai et
+autocmd BufEnter,WinEnter * setlocal relativenumber
+autocmd BufLeave,WinLeave * setlocal number
+set colorcolumn=+1,+2,+3
 
-  " Put these in an autocmd group, so that we can delete them easily.
-  augroup vimrcEx
-  au!
+" When editing a file, always jump to the last known cursor position.
+" Don't do it when the position is invalid or when inside an event handler
+" (happens when dropping a file on gvim).
+" Also don't do it when the mark is in the first line, that is the default
+" position when opening a file.
+autocmd BufReadPost *
+  \ if line("'\"") > 1 && line("'\"") <= line("$") |
+  \   exe "normal! g`\"" |
+  \ endif
 
-  " For all text files set 'textwidth' to 80 characters.
-  autocmd FileType text setlocal textwidth=80
-  " Set all python and cpp files to 80 charactrs.
-  autocmd FileType python setlocal textwidth=80 sw=2 ts=2 ai et
-  autocmd FileType c setlocal textwidth=80 sw=2 ts=2 ai et
-  autocmd FileType cpp setlocal textwidth=80 sw=2 ts=2 ai et
-  autocmd FileType markdown setlocal textwidth=80 sw=4 ts=4 ai et
-  autocmd BufEnter,WinEnter * setlocal relativenumber
-  autocmd BufLeave,WinLeave * setlocal number
-
-  " When editing a file, always jump to the last known cursor position.
-  " Don't do it when the position is invalid or when inside an event handler
-  " (happens when dropping a file on gvim).
-  " Also don't do it when the mark is in the first line, that is the default
-  " position when opening a file.
-  autocmd BufReadPost *
-    \ if line("'\"") > 1 && line("'\"") <= line("$") |
-    \   exe "normal! g`\"" |
-    \ endif
-
-  augroup END
-
-else
-
-  set autoindent    " always set autoindenting on
-
-endif " has("autocmd")
+augroup END
 
 colorscheme peachpuff
 set background=dark
