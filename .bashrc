@@ -227,3 +227,6 @@ function battery {
   cat /sys/class/power_supply/BAT0/capacity | tr '\n' ' '
   cat /sys/class/power_supply/BAT0/status
 }
+
+# Enable Vim like navigation and bindings
+set -o vi
