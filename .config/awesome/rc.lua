@@ -403,7 +403,11 @@ globalkeys = gears.table.join(
               {description = "lua execute prompt", group = "awesome"}),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"})
+              {description = "show the menubar", group = "launcher"}),
+
+    -- Lock screen
+    awful.key({ modkey, "Control"   }, "l", function () awful.spawn('/usr/bin/xscreensaver-command -lock') end,
+              {description = "Lock screen", group = "awesome"})
 )
 
 clientkeys = gears.table.join(
@@ -630,3 +634,6 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+--
+awful.spawn('/usr/bin/xscreensaver')
+awful.spawn('/usr/bin/slack')
